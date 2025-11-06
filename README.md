@@ -48,7 +48,7 @@ Additionally, the project includes the following features:
 
 # Usage
 
-The application can be run locally using the .NET CLI or Visual Studio. Once running, the application can be accessed by navigating to [https://localhost:7246](https://localhost:7022/). 
+The application can be run locally using the .NET CLI or Visual Studio. Once running, the application can be accessed by navigating to [https://localhost:7022](https://localhost:7022/). 
 
 To log into the application the username and password are as follows:
 *   **Username**: doctor
