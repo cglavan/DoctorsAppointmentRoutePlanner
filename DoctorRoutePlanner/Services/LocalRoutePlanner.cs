@@ -5,6 +5,12 @@ namespace DoctorRoutePlanner.Services
 {
     public class LocalRoutePlanner : IRoutePlanner
     {
+        private readonly ILogger<LocalRoutePlanner> _logger;
+        public LocalRoutePlanner(ILogger<LocalRoutePlanner> logger)
+        {
+            _logger = logger;
+        }
+
         /// <summary>
         /// Plans an effective route based on start time of a list of appointments
         /// </summary>
@@ -15,68 +21,79 @@ namespace DoctorRoutePlanner.Services
         /// <returns></returns>
         public RoutePlan PlanRoute(List<Appointment> appointments, double homeLat, double homeLng, DateTime startTime)
         {
-            var route = new RoutePlan();
-            var currentTime = startTime;
-            var currentLat = homeLat;
-            var currentLng = homeLng;
-
-            // Sort appointments by WindowStart
-            var ordered = appointments.OrderBy(a => a.WindowStart).ToList();
-
-            foreach (var appt in ordered)
+            try
             {
-                var travelTime = TimeSpan.FromMinutes(GetDistance(currentLat, currentLng, appt.Latitude, appt.Longitude) * 2);
-                var arrival = currentTime + travelTime;
+                _logger.LogInformation("Starting route planning using LocalRoutePlanner");
+                var route = new RoutePlan();
+                var currentTime = startTime;
+                var currentLat = homeLat;
+                var currentLng = homeLng;
 
-                // Wait if arriving early
-                if (arrival < appt.WindowStart)
-                    arrival = appt.WindowStart;
+                // Sort appointments by WindowStart
+                var ordered = appointments.OrderBy(a => a.WindowStart).ToList();
 
-                var departure = arrival.Add(appt.Duration);
-
-                // Add the route point information
-                route.Points.Add(new RoutePoint
+                foreach (var appt in ordered)
                 {
-                    Name = appt.PatientName,
-                    Latitude = appt.Latitude,
-                    Longitude = appt.Longitude,
-                    ArrivalTime = arrival,
-                    DepartureTime = departure
-                });
+                    var travelTime = TimeSpan.FromMinutes(GetDistance(currentLat, currentLng, appt.Latitude, appt.Longitude) * 2);
+                    var arrival = currentTime + travelTime;
 
-                currentTime = departure;
-                currentLat = appt.Latitude;
-                currentLng = appt.Longitude;
+                    // Wait if arriving early
+                    if (arrival < appt.WindowStart)
+                        arrival = appt.WindowStart;
+
+                    var departure = arrival.Add(appt.Duration);
+
+                    // Add the route point information
+                    route.Points.Add(new RoutePoint
+                    {
+                        Name = appt.PatientName,
+                        Latitude = appt.Latitude,
+                        Longitude = appt.Longitude,
+                        ArrivalTime = arrival,
+                        DepartureTime = departure
+                    });
+
+                    currentTime = departure;
+                    currentLat = appt.Latitude;
+                    currentLng = appt.Longitude;
+                }
+
+                // Add the time to return to home office
+                var returnTime = currentTime + TimeSpan.FromMinutes(GetDistance(currentLat, currentLng, homeLat, homeLng) * 2);
+                route.TotalDuration = returnTime - startTime;
+
+                // Total distance: sum of legs + return
+                double totalDistance = 0;
+                double lastLat = homeLat;
+                double lastLng = homeLng;
+
+                // Calculate the total distance for the route summary module
+                foreach (var point in route.Points)
+                {
+                    totalDistance += GetDistance(lastLat, lastLng, point.Latitude, point.Longitude);
+                    lastLat = point.Latitude;
+                    lastLng = point.Longitude;
+                }
+
+                // Add the distance to return to home
+                totalDistance += GetDistance(lastLat, lastLng, homeLat, homeLng);
+                route.TotalDistanceKm = totalDistance;
+
+                _logger.LogInformation("Route planning completed successfully");
+
+                return route;
             }
-
-            // Add the time to return to home office
-            var returnTime = currentTime + TimeSpan.FromMinutes(GetDistance(currentLat, currentLng, homeLat, homeLng) * 2);
-            route.TotalDuration = returnTime - startTime;
-
-            // Total distance: sum of legs + return
-            double totalDistance = 0;
-            double lastLat = homeLat;
-            double lastLng = homeLng;
-
-            // Calculate the total distance for the route summary module
-            foreach (var point in route.Points)
+            catch(Exception ex)
             {
-                totalDistance += GetDistance(lastLat, lastLng, point.Latitude, point.Longitude);
-                lastLat = point.Latitude;
-                lastLng = point.Longitude;
+                _logger.LogError($"Error in PlanRoute: {ex.Message}");
+                throw;
             }
-
-            // Add the distance to return to home
-            totalDistance += GetDistance(lastLat, lastLng, homeLat, homeLng);
-            route.TotalDistanceKm = totalDistance;
-
-            return route;
         }
 
         private double GetDistance(double lat1, double lon1, double lat2, double lon2, string unit = "mi")
         {
             // Determine the radius in miles or kilometers (default is miles)
-            double R = unit.ToLower() == "mi" ? 3958.8 : 6371.0; 
+            double R = unit.ToLower() == "mi" ? 3958.8 : 6371.0;
             double dLat = ToRad(lat2 - lat1);
             double dLon = ToRad(lon2 - lon1);
             double a =

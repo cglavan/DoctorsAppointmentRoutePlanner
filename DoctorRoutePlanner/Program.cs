@@ -1,5 +1,9 @@
 using DoctorRoutePlanner.Interfaces;
+using DoctorRoutePlanner.Models;
 using DoctorRoutePlanner.Services;
+using Microsoft.Extensions.Configuration;
+using Serilog;
+using System.Reflection;
 
 namespace DoctorRoutePlanner
 {
@@ -12,8 +16,17 @@ namespace DoctorRoutePlanner
             // Add services to the container.
             builder.Services.AddRazorPages();
 
-            //Dependency injection for the route planner
+            //Dependency injection entries
             builder.Services.AddSingleton<IRoutePlanner, LocalRoutePlanner>();
+            builder.Services.Configure<LoginCredentials>(builder.Configuration.GetSection("LoginCredentials"));
+            builder.Services.AddScoped<ILoginService, LoginService>();
+
+            // Add Serilog for logging purposes
+            Environment.SetEnvironmentVariable("BaseDir", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+            builder.Host.UseSerilog((ctx, lc) => lc
+                .ReadFrom.Configuration(ctx.Configuration));
+
+            builder.Services.AddSession();
 
             var app = builder.Build();
 
@@ -33,6 +46,8 @@ namespace DoctorRoutePlanner
             app.UseAuthorization();
 
             app.MapRazorPages();
+
+            app.UseSession();
 
             app.Run();
         }
