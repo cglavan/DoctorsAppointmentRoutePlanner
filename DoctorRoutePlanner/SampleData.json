@@ -1,0 +1,102 @@
+[
+  {
+    "PatientId": "P001",
+    "PatientName": "Alice Russo",
+    "Latitude": 40.44715,
+    "Longitude": -79.98234,
+    "WindowStart": "2025-11-06T08:00:00",
+    "WindowEnd": "2025-11-06T08:30:00",
+    "Duration": "00:30:00",
+    "Notes": "Patient requires wheelchair access and prefers early morning visits."
+  },
+  {
+    "PatientId": "P002",
+    "PatientName": "Brian Keller",
+    "Latitude": 40.45578,
+    "Longitude": -79.97891,
+    "WindowStart": "2025-11-06T14:45:00",
+    "WindowEnd": "2025-11-06T15:15:00",
+    "Duration": "00:30:00",
+    "Notes": "Diabetic patient; confirm insulin dosage and review glucose log."
+  },
+  {
+    "PatientId": "P003",
+    "PatientName": "Carmen Diaz",
+    "Latitude": 40.46234,
+    "Longitude": -79.97123,
+    "WindowStart": "2025-11-06T11:45:00",
+    "WindowEnd": "2025-11-06T12:15:00",
+    "Duration": "00:30:00",
+    "Notes": "Spanish-speaking; interpreter requested for medication review."
+  },
+  {
+    "PatientId": "P004",
+    "PatientName": "Derek Lin",
+    "Latitude": 40.46890,
+    "Longitude": -79.96012,
+    "WindowStart": "2025-11-06T10:15:00",
+    "WindowEnd": "2025-11-06T10:45:00",
+    "Duration": "00:30:00",
+    "Notes": "Post-surgical wound check; bring dressing supplies and sterile gloves."
+  },
+  {
+    "PatientId": "P005",
+    "PatientName": "Emily Grant",
+    "Latitude": 40.47456,
+    "Longitude": -79.94876,
+    "WindowStart": "2025-11-06T13:15:00",
+    "WindowEnd": "2025-11-06T13:45:00",
+    "Duration": "00:30:00",
+    "Notes": "Patient has mild dementia; caregiver will be present during visit."
+  },
+  {
+    "PatientId": "P006",
+    "PatientName": "Frankie Moore",
+    "Latitude": 40.48012,
+    "Longitude": -79.93567,
+    "WindowStart": "2025-11-06T11:00:00",
+    "WindowEnd": "2025-11-06T11:30:00",
+    "Duration": "00:30:00",
+    "Notes": "Annual physical; patient requests cholesterol screening and blood pressure check."
+  },
+  {
+    "PatientId": "P007",
+    "PatientName": "Gina Patel",
+    "Latitude": 40.48678,
+    "Longitude": -79.92234,
+    "WindowStart": "2025-11-06T08:45:00",
+    "WindowEnd": "2025-11-06T09:15:00",
+    "Duration": "00:30:00",
+    "Notes": "Recently discharged from hospital; review discharge medications and follow-up plan."
+  },
+  {
+    "PatientId": "P008",
+    "PatientName": "Harold Simmons",
+    "Latitude": 40.49234,
+    "Longitude": -79.91001,
+    "WindowStart": "2025-11-06T14:00:00",
+    "WindowEnd": "2025-11-06T14:30:00",
+    "Duration": "00:30:00",
+    "Notes": "Patient has hearing impairment; use written materials and speak clearly."
+  },
+  {
+    "PatientId": "P009",
+    "PatientName": "Irene Wallace",
+    "Latitude": 40.48123,
+    "Longitude": -79.99056,
+    "WindowStart": "2025-11-06T09:30:00",
+    "WindowEnd": "2025-11-06T10:00:00",
+    "Duration": "00:30:00",
+    "Notes": "Recovering from pneumonia; assess oxygen saturation and respiratory rate."
+  },
+  {
+    "PatientId": "P010",
+    "PatientName": "Jason Young",
+    "Latitude": 40.47012,
+    "Longitude": -79.99989,
+    "WindowStart": "2025-11-06T12:30:00",
+    "WindowEnd": "2025-11-06T13:00:00",
+    "Duration": "00:30:00",
+    "Notes": "Mobility issues; entry ramp available at rear of residence."
+  }
+]

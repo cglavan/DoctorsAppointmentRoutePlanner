@@ -1,0 +1,58 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+}
+
+.main-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.appointment-panel, .map-view, .route-summary {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+#map {
+    width: 100%;
+    height: 400px;
+}
+
+.appointment-item.border-left-danger {
+    border-left: 5px solid #dc3545;
+}
+
+.appointment-item.border-left-success {
+    border-left: 5px solid #28a745;
+}
